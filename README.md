@@ -1,4 +1,4 @@
-# 🖌Pencil Sketch Generator
+# Pencil Sketch Generator
 This web app converts your photos into pencil sketches using OpenCV + Flask.
 
 ## Features
