@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, send_file
 import cv2
 import os
-import webbrowser
-import threading
 
 app = Flask(__name__)
 
@@ -16,6 +14,7 @@ def index():
             output_path = "static/output.png"
             file.save(input_path)
 
+            # Convert image to pencil sketch
             image = cv2.imread(input_path)
             gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             inverted = 255 - gray
@@ -32,9 +31,6 @@ def index():
 def get_sketch():
     return send_file("static/output.png", mimetype='image/png')
 
-def open_browser():
-    webbrowser.open_new("http://127.0.0.1:5000")
-
 if __name__ == "__main__":
-    threading.Timer(1.0, open_browser).start()  # Open browser after 1 sec
-    app.run(debug=True, use_reloader=False)
+    port = int(os.environ.get("PORT", 5000))  # Render injects this variable
+    app.run(debug=False, host="0.0.0.0", port=port)  # Required for external access
