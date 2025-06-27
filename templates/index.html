@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pencil Sketch Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .hero-section {
+      padding-top: 80px;
+      padding-bottom: 60px;
+    }
+
+    .form-control {
+      background-color: #1f2d3d;
+      color: #fff;
+      border: 1px solid #6c757d;
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+      border-color: #0d6efd;
+    }
+
+    footer {
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.2);
+      text-align: center;
+      color: #ccc;
+    }
+
+    .btn-primary, .btn-success {
+      width: 100%;
+    }
+
+    img {
+      border: 5px solid #fff;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .input-group-text:hover {
+      background-color: #0b5ed7 !important;
+      cursor: pointer;
+    }
+
+    /* Blinking >> << only */
+    .blinking {
+      color: #0dcaf0;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <div class="container text-center hero-section">
+    <h1 class="display-5 fw-bold mb-4">
+      <span class="blinking">»</span> Pencil Sketch Generator <span class="blinking">«</span>
+    </h1>
+    <p class="lead mb-4">Turn your photos into elegant pencil sketches in seconds. Just upload your image and let the magic happen!</p>
+
+    <form method="POST" enctype="multipart/form-data" class="p-4 rounded bg-dark shadow-lg">
+      <div class="mb-3 text-start">
+        <label for="fileUpload" class="form-label fw-semibold">Upload an Image Below:</label>
+        <div class="input-group">
+          <input type="file" class="form-control" id="fileUpload" name="image" required>
+          <label class="input-group-text bg-primary text-white" for="fileUpload">Browse</label>
+        </div>
+        <div id="fileName" class="form-text text-light mt-2">No file selected</div>
+      </div>
+      <button type="submit" class="btn btn-primary">Convert to Sketch</button>
+    </form>
+
+    {% if output_image %}
+      <div class="mt-5">
+        <h4 class="mb-3">🖼️ Here's Your Sketch:</h4>
+        <img src="{{ url_for('static', filename='output.png') }}" class="img-fluid" alt="Sketch Result">
+        <a href="{{ url_for('static', filename='output.png') }}" class="btn btn-success mt-3" download>Download Your Sketch</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <footer class="mt-auto">
+    <p>&copy; 2025 Pencil Sketch Web App. Built by Abishek Prasad Subramanian.</p>
+  </footer>
+
+  <script>
+    const fileInput = document.getElementById('fileUpload');
+    const fileNameDisplay = document.getElementById('fileName');
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) {
+        fileNameDisplay.textContent = `Selected: ${fileInput.files[0].name}`;
+      } else {
+        fileNameDisplay.textContent = 'No file selected';
+      }
+    });
+  </script>
+
+</body>
+</html>
